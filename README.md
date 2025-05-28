@@ -1,88 +1,123 @@
-# Fingerprint_Based_ATM_Authentication_System
-This is an Python based ATM project which uses Biometric based system to authenticate the user. Along with fingerprint authentication this project also uses OTP authentication method as second step verification. It first register the user and store the bank account details on MySQL database (name, phone no., account no.,starting balance and user's finger impression). User can access his/her account by providing bank account number and then authenticating his/her identity. If user cant authenticate within two trials the account will be blocked (NOTE: You have to unblocked that account from MySQL database). With this project user will be able to:
+![image](https://github.com/user-attachments/assets/3bab2b67-d41b-4680-8948-6bf2a54e66da)# 🔐 Fingerprint-Based ATM Authentication System
 
--- Register his/her account
+This is a Python-based ATM project that uses a biometric authentication system. Along with fingerprint authentication, this project also includes OTP-based verification for secure two-step authentication.
 
--- Login to account (with two step verification)
+> Secure ATM system using biometric fingerprint matching (OpenCV) and OTP (Twilio) verification.
 
--- Withdraw and Deposit Money
+## ✅ Features
+- 🔒 Fingerprint-based authentication using OpenCV (SIFT + FLANN).
+- 📲 OTP verification using Twilio API.
+- 👤 User registration and login system.
+- 💵 Secure money transactions: deposit, withdrawal.
+- 🧾 Mini statement view.
+- 🛡️ Account blocking after failed authentication attempts.
 
--- Mini Statement with last transaction status
+## 📂 Functionalities
+Users will be able to:
+- Register their account with fingerprint and details.
+- Login using account number, fingerprint scan, and OTP.
+- Withdraw and deposit money securely.
+- View the mini statement with the latest transaction details.
+- Automatic account block after 2 failed authentication attempts (requires manual unblock in MySQL).
 
-## Dataset 
-This project uses kaggle fingerprint dataset 
- -- Sokoto Coventry Fingerprint Dataset (SOCOFing)
+## 🧬 Dataset
 
-To download dataset go through this link: https://www.kaggle.com/datasets/ruizgara/socofing
+This project uses the **Sokoto Coventry Fingerprint Dataset (SOCOFing)** available on Kaggle.  
+🔗 [Download Here](https://www.kaggle.com/datasets/ruizgara/socofing)
 
-## Required Libraries
+## 🛠 Tech Stack
+- **Language:** Python
+- **GUI:** Tkinter (for file selection dialogs)
+- **Database:** MySQL (Railway DB)
+- **Biometrics:** OpenCV (Fingerprint matching with SIFT + FLANN)
+- **OTP SMS:** Twilio Verify API
 
+## 📦 Required Libraries
+```bash
+pip install opencv-python
 pip install mysql-connector-python
-
-pip install inputimeout
-
 pip install twilio
+pip install inputimeout
+```
 
-## MySQL Database
-Create a database with following fields:
+## 🚀 Installation
 
--- Sr_no
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/yourusername/Fingerprint_Based_ATM_Authentication_System.git
+   cd Fingerprint_Based_ATM_Authentication_System
+   ```
 
--- first_name
+2. Install the dependencies mentioned above.
 
--- last_name
+3. Configure Railway DB:
+   - Ensure correct MySQL credentials are set in:
+     - `ATM_authentication.py`
+     - `login_module.py`
+     - `registration_module.py`
+     - `transaction_module.py`
+   - Run:
+     ```bash
+     python test.py
+     ```
 
--- phone_no
+4. Configure Twilio OTP:
+   - Set your Twilio `account_sid`, `auth_token`, `verify_sid`, and verified phone number inside `ATM_authentication.py`.
 
--- Account_no
+5. Start the application:
+   ```bash
+   python ATM.py
+   ```
 
--- finger_print
+> ⚠️ Ensure all configuration details are correct before running.
 
--- Balance
+## 🗄️ MySQL Database Schema
 
--- Transaction (credited / debited)
+Create a database `railway` and use the following table structure:
 
--- Amount
+```sql
+CREATE TABLE ATM_database (
+  Sr_no INT AUTO_INCREMENT,
+  first_name VARCHAR(20) NOT NULL,
+  last_name VARCHAR(20) NOT NULL,
+  phone_no BIGINT NOT NULL,
+  Account_no BIGINT NOT NULL UNIQUE,
+  finger_print LONGBLOB NOT NULL,
+  Balance INT NOT NULL,
+  Transaction TEXT NOT NULL,
+  Amount INT NOT NULL,
+  Date_Time DATETIME NOT NULL,
+  block_status VARCHAR(10) NOT NULL,
+  block_time DATETIME,
+  PRIMARY KEY(Sr_no),
+  CONSTRAINT con_1 UNIQUE(Account_no)
+);
+```
 
--- Date_Time
+## 🧑‍💻 Screenshots
 
--- block_status (block/unblock)
-
--- block_time
-
-connection_cursor.execute("CREATE TABLE ATM_database (Sr_no int auto_increment ,first_name varchar(20) NOT NULL,last_name varchar(20) NOT NULL,phone_no bigint NOT NULL,Account_no bigint NOT NULL, finger_print LONGBLOB NOT NULL,Balance int NOT NULL,Transaction text NOT NULL,Amount int NOT NULL, Date_Time DATETIME NOT NULL,block_status varchar(10) NOT NULL,block_time DATETIME, primary key(Sr_no) , constraint con_1 unique(Account_no))")
-
-
-
-## User Installation
-To run the project:
- 1. Clone this Repo to your local machine.
- 2. Make sure that all files are stored in single folder.
- 3. Use any IDE which supports Python version >3.
- 4. Create a MySql database and account on twilio with OTP Authentication Service
- 5. Save your MySQL database details in ATM_authentication.py, login_module.py,registration_module.py,transaction_module.py
- 6. Save your twilio account_sid,auth_token,verify_sid and verified_number in ATM_authentication.py
- 7. Before running the file make sure that you have provide all the required details correctly in the code.
- 8. Run the ATM.py file.
-
-NOTE: You must create twilio account and have required credential to use the authentication features in this project.
-
-## Screenshots
-After Running the file in #7, you will see this interface:
-
-![image](https://github.com/mayankyadav06/Fingerprint_Based_ATM_Authentication_System/assets/140626220/2a82e6fc-7a15-452c-9730-28ad13ce60cb)
-
-Registraition of Account:
-
-![image](https://github.com/mayankyadav06/Fingerprint_Based_ATM_Authentication_System/assets/140626220/e5e2d820-a702-492e-828b-68ec61086bd4)
-
-
-Authentication and Withdrawal:
-
-![image](https://github.com/mayankyadav06/Fingerprint_Based_ATM_Authentication_System/assets/140626220/cad4a353-896d-4548-9be4-ee030611e5ba)
-
-![image](https://github.com/mayankyadav06/Fingerprint_Based_ATM_Authentication_System/assets/140626220/de72b3c5-3eff-4090-89e6-388dfc626f65)
-
+**Startup Interface:**
+![image](https://github.com/user-attachments/assets/a6e30aa6-c843-44b9-bc1f-7567d832840b)
 
 
+**Registration of Account:**
+> ![image](https://github.com/user-attachments/assets/266487f5-aea1-4430-88bb-5f18bfe606c2)
 
+
+**Authentication and Withdrawal:**
+![image](https://github.com/user-attachments/assets/b52dc0c5-77c6-4a98-b432-b5c7672d9afe)
+
+## 📌 Usage
+
+1. Run `ATM.py`
+2. Choose:
+   - Registration
+   - Login (with fingerprint + OTP)
+3. Access banking operations:
+   - Withdraw
+   - Deposit
+   - Mini Statement
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
